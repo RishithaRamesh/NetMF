@@ -296,3 +296,26 @@ Macro-F1: 22.90%
 
 
 --------------------------------------------------------------------------------------------------------------------------
+
+new code fpr part 2 and 3:
+netmf) rishitharamesh@Mac NetMF % python netmf.py \
+  --input data/blogcatalog.mat \
+  --output embeddings/blogcatalog_test.npy
+2026-09-25 12:07:36,731 Running NetMF for a large window size...
+2026-09-25 12:07:36,731 Window size is set to be 10
+2026-09-25 12:07:36,733 loading mat file data/blogcatalog.mat
+2026-09-25 12:07:36,733 Adjacency matrix: shape=(10312, 10312), nnz=667966, percent nonzero=0.628157%
+2026-09-25 12:07:36,733 Memory after loading adjacency: 58.19 MB
+2026-09-25 12:07:36,748 Eigen decomposition...
+2026-09-25 12:07:49,277 Maximum eigenvalue 1.000000, minimum eigenvalue 0.192003
+2026-09-25 12:07:49,277 Computing D^{-1/2}U..
+2026-09-25 12:07:49,282 After filtering, max eigenvalue=1.000000, min eigenvalue=0.023763
+2026-09-25 12:07:50,404 DeepWalk matrix: shape=(10312, 10312), nnz=43359474, percent nonzero=40.775397%
+2026-09-25 12:07:50,404 Memory after DeepWalk matrix construction: 1868.84 MB
+2026-09-25 12:07:51,491 DeepWalk matrix construction time: 2.21 seconds
+2026-09-25 12:08:17,167 Top 10 singular values: [2136.16  ,  937.3992,  847.0129,  638.561 ,  525.2427,  513.0866,
+  490.3676,  451.9428,  446.458 ,  416.8263]
+2026-09-25 12:08:17,172 SVD factorization time: 25.68 seconds
+2026-09-25 12:08:17,172 Memory after SVD: 786.02 MB
+2026-09-25 12:08:17,172 Peak memory usage: 3192.09 MB
+2026-09-25 12:08:17,173 Save embedding to embeddings/blogcatalog_test.npy

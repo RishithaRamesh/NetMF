@@ -6,7 +6,10 @@
 
 import argparse
 import logging
-
+import os
+import time
+import psutil
+import resource
 import numpy as np
 import scipy.io
 import scipy.sparse as sparse
@@ -14,7 +17,13 @@ from scipy.sparse import csgraph
 
 
 logger = logging.getLogger(__name__)
+def get_memory_mb():
+    process = psutil.Process(os.getpid())
+    return process.memory_info().rss / (1024 * 1024)
 
+def get_peak_memory_mb():
+    usage = resource.getrusage(resource.RUSAGE_SELF)
+    return usage.ru_maxrss / (1024 * 1024)
 
 def load_adjacency_matrix(file, variable_name="network"):
     data = scipy.io.loadmat(file)
@@ -101,13 +110,25 @@ def approximate_deepwalk_matrix(
     mmT = X.dot(X.T) * (vol / b)
     Y = np.log(np.maximum(mmT, 1))
 
+    deepwalk_nnz = np.count_nonzero(Y)
+    deepwalk_total = Y.size
+    deepwalk_percent = (
+        deepwalk_nnz / deepwalk_total
+    ) * 100
+
     logger.info(
-        "Computed DeepWalk matrix with %d non-zero elements",
-        np.count_nonzero(Y),
+        "DeepWalk matrix: shape=%s, nnz=%d, percent nonzero=%.6f%%",
+        Y.shape,
+        deepwalk_nnz,
+        deepwalk_percent,
+    )
+
+    logger.info(
+        "Memory after DeepWalk matrix construction: %.2f MB",
+        get_memory_mb(),
     )
 
     return sparse.csr_matrix(Y)
-
 
 def svd_deepwalk_matrix(X, dim):
     u, s, v = sparse.linalg.svds(
@@ -116,11 +137,31 @@ def svd_deepwalk_matrix(X, dim):
         return_singular_vectors="u",
     )
 
+    # svds returns singular values in ascending order.
+    # Sort them from largest to smallest for analysis.
+    order = np.argsort(s)[::-1]
+    s = s[order]
+    u = u[:, order]
+
+    logger.info(
+        "Top 10 singular values: %s",
+        np.array2string(
+            s[:10],
+            precision=4,
+            separator=", ",
+        ),
+    )
+
+    np.save(
+        "singular_values_flickr.npy",
+        s,
+        allow_pickle=False,
+    )
+
     # Return U Sigma^{1/2}
     return sparse.diags(
         np.sqrt(s)
     ).dot(u.T).T
-
 
 def netmf_large(args):
     logger.info(
@@ -138,6 +179,25 @@ def netmf_large(args):
         variable_name=args.matfile_variable_name,
     )
 
+    n = A.shape[0]
+    adjacency_nnz = A.nnz
+    adjacency_total = n * n
+    adjacency_percent = (
+        adjacency_nnz / adjacency_total
+    ) * 100
+
+    logger.info(
+        "Adjacency matrix: shape=%s, nnz=%d, percent nonzero=%.6f%%",
+        A.shape,
+        adjacency_nnz,
+        adjacency_percent,
+    )
+
+    logger.info(
+        "Memory after loading adjacency: %.2f MB",
+        get_memory_mb(),
+    )
+
     vol = float(A.sum())
 
     # Perform eigen-decomposition of
@@ -153,6 +213,8 @@ def netmf_large(args):
     )
 
     # Approximate DeepWalk matrix
+    matrix_start = time.perf_counter()
+
     deepwalk_matrix = approximate_deepwalk_matrix(
         evals,
         D_rt_invU,
@@ -161,10 +223,36 @@ def netmf_large(args):
         b=args.negative,
     )
 
+    matrix_time = time.perf_counter() - matrix_start
+
+    logger.info(
+        "DeepWalk matrix construction time: %.2f seconds",
+        matrix_time,
+    )
+
     # Factorize DeepWalk matrix with SVD
+    svd_start = time.perf_counter()
+
     deepwalk_embedding = svd_deepwalk_matrix(
         deepwalk_matrix,
         dim=args.dim,
+    )
+
+    svd_time = time.perf_counter() - svd_start
+
+    logger.info(
+        "SVD factorization time: %.2f seconds",
+        svd_time,
+    )
+
+    logger.info(
+        "Memory after SVD: %.2f MB",
+        get_memory_mb(),
+    )
+
+    logger.info(
+        "Peak memory usage: %.2f MB",
+        get_peak_memory_mb(),
     )
 
     logger.info(
@@ -177,7 +265,6 @@ def netmf_large(args):
         deepwalk_embedding,
         allow_pickle=False,
     )
-
 
 def direct_compute_deepwalk_matrix(
     A,
