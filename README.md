@@ -1,3 +1,7 @@
+the data i used:
+curl -L -o BlogCatalog-dataset.zip \
+https://datasets.syr.edu/uploads/1283153973/BlogCatalog-dataset.zip
+
 # NetMF
 
 This is a Python implementation of NetMF for the task of network embedding learning, as described in our paper:
