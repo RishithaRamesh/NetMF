@@ -1,11 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 datasets = {
-    "BlogCatalog": "singular_values_blogcatalog.npy",
-    "PPI": "singular_values_ppi.npy",
-    "Wikipedia": "singular_values_wikipedia.npy",
+    "BlogCatalog": "embeddings/blogcatalog_singular_values.npy",
+    "PPI": "embeddings/ppi_test_singular_values.npy",
+    "Wikipedia": "embeddings/wikipedia_test_singular_values.npy",
 }
 
 for name, filename in datasets.items():
@@ -24,9 +23,5 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 
-plt.savefig(
-    "singular_value_decay.png",
-    dpi=300,
-)
-
+plt.savefig("singular_value_decay.png", dpi=300)
 plt.show()

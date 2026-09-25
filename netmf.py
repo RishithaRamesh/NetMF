@@ -130,11 +130,10 @@ def approximate_deepwalk_matrix(
 
     return sparse.csr_matrix(Y)
 
-def svd_deepwalk_matrix(X, dim):
-    u, s, v = sparse.linalg.svds(
+def svd_deepwalk_matrix(X, dim, singular_values_output=None):
+    u, s, vt = sparse.linalg.svds(
         X,
         dim,
-        return_singular_vectors="u",
     )
 
     # svds returns singular values in ascending order.
@@ -142,6 +141,7 @@ def svd_deepwalk_matrix(X, dim):
     order = np.argsort(s)[::-1]
     s = s[order]
     u = u[:, order]
+    vt = vt[order, :]
 
     logger.info(
         "Top 10 singular values: %s",
@@ -152,11 +152,34 @@ def svd_deepwalk_matrix(X, dim):
         ),
     )
 
-    np.save(
-        "singular_values_flickr.npy",
-        s,
-        allow_pickle=False,
+    if singular_values_output is not None:
+        np.save(
+            singular_values_output,
+            s,
+            allow_pickle=False,
+        )
+
+        logger.info(
+            "Save singular values to %s",
+            singular_values_output,
+        )
+
+    truncated_matrix = (u * s).dot(vt)
+    truncated_nnz = np.count_nonzero(truncated_matrix)
+    truncated_total = truncated_matrix.size
+    truncated_percent = (
+        truncated_nnz / truncated_total
+    ) * 100
+
+    logger.info(
+        "Rank-%d reconstructed matrix: shape=%s, nnz=%d, percent nonzero=%.6f%%",
+        dim,
+        truncated_matrix.shape,
+        truncated_nnz,
+        truncated_percent,
     )
+
+    del truncated_matrix
 
     # Return U Sigma^{1/2}
     return sparse.diags(
@@ -200,16 +223,21 @@ def netmf_large(args):
 
     vol = float(A.sum())
 
-    # Perform eigen-decomposition of
-    # D^{-1/2} A D^{-1/2}
-    #
-    # Keep top #rank eigenpairs
+    eigen_start = time.perf_counter()
+
     evals, D_rt_invU = (
         approximate_normalized_graph_laplacian(
             A,
             rank=args.rank,
             which="LA",
         )
+    )
+
+    eigen_time = time.perf_counter() - eigen_start
+
+    logger.info(
+        "Eigen decomposition time: %.2f seconds",
+        eigen_time,
     )
 
     # Approximate DeepWalk matrix
@@ -233,9 +261,28 @@ def netmf_large(args):
     # Factorize DeepWalk matrix with SVD
     svd_start = time.perf_counter()
 
+    singular_values_output = (
+        os.path.splitext(args.output)[0]
+        + "_singular_values.npy"
+    )
+
     deepwalk_embedding = svd_deepwalk_matrix(
         deepwalk_matrix,
         dim=args.dim,
+        singular_values_output=singular_values_output,
+    )
+
+    embedding_nnz = np.count_nonzero(deepwalk_embedding)
+    embedding_total = deepwalk_embedding.size
+    embedding_percent = (
+        embedding_nnz / embedding_total
+    ) * 100
+
+    logger.info(
+        "Truncated embedding: shape=%s, nnz=%d, percent nonzero=%.6f%%",
+        deepwalk_embedding.shape,
+        embedding_nnz,
+        embedding_percent,
     )
 
     svd_time = time.perf_counter() - svd_start
@@ -344,9 +391,15 @@ def netmf_small(args):
     )
 
     # Factorize DeepWalk matrix with SVD
+    singular_values_output = (
+        os.path.splitext(args.output)[0]
+        + "_singular_values.npy"
+    )
+
     deepwalk_embedding = svd_deepwalk_matrix(
         deepwalk_matrix,
         dim=args.dim,
+        singular_values_output=singular_values_output,
     )
 
     logger.info(
@@ -439,4 +492,3 @@ if __name__ == "__main__":
         netmf_large(args)
     else:
         netmf_small(args)
-
