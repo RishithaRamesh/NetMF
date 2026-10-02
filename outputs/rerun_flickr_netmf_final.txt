@@ -1,0 +1,30 @@
+2026-10-02 15:01:12,493 Running NetMF for a large window size...
+2026-10-02 15:01:12,493 Window size is set to be 10
+2026-10-02 15:01:12,577 loading mat file data/flickr.mat
+2026-10-02 15:01:12,577 Adjacency matrix: shape=(80513, 80513), nnz=11799764, percent nonzero=0.182029%
+2026-10-02 15:01:12,577 Memory after loading adjacency: 417.80 MB
+2026-10-02 15:01:12,914 Eigen decomposition...
+2026-10-02 15:02:11,239 Maximum eigenvalue 1.000000, minimum eigenvalue 0.375625
+2026-10-02 15:02:11,239 Computing D^{-1/2}U..
+2026-10-02 15:02:11,284 Eigen decomposition time: 58.69 seconds
+2026-10-02 15:02:11,284 After filtering, max eigenvalue=1.000000, min eigenvalue=0.060157
+time: command terminated abnormally
+     4946.23 real       716.18 user       301.60 sys
+         10376101888  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+            40771329  page reclaims
+                 768  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+             7658042  voluntary context switches
+             3714070  involuntary context switches
+       6287369919533  instructions retired
+       3447127428945  cycles elapsed
+         88321031264  peak memory footprint
+time: signal: Invalid argument

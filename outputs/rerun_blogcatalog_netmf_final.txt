@@ -1,0 +1,22 @@
+2026-10-02 13:14:44,266 Running NetMF for a large window size...
+2026-10-02 13:14:44,266 Window size is set to be 10
+2026-10-02 13:14:44,274 loading mat file data/blogcatalog.mat
+2026-10-02 13:14:44,274 Adjacency matrix: shape=(10312, 10312), nnz=667966, percent nonzero=0.628157%
+2026-10-02 13:14:44,274 Memory after loading adjacency: 75.14 MB
+2026-10-02 13:14:44,300 Eigen decomposition...
+2026-10-02 13:14:54,431 Maximum eigenvalue 1.000000, minimum eigenvalue 0.192003
+2026-10-02 13:14:54,431 Computing D^{-1/2}U..
+2026-10-02 13:14:54,441 Eigen decomposition time: 10.17 seconds
+2026-10-02 13:14:54,441 After filtering, max eigenvalue=1.000000, min eigenvalue=0.023763
+2026-10-02 13:14:55,683 DeepWalk matrix: shape=(10312, 10312), nnz=43359474, percent nonzero=40.775397%
+2026-10-02 13:14:55,684 Memory after DeepWalk matrix construction: 1696.62 MB
+2026-10-02 13:14:56,898 DeepWalk matrix construction time: 2.46 seconds
+2026-10-02 13:15:26,847 SVD factorization time: 29.95 seconds
+2026-10-02 13:15:26,850 Top 10 singular values: [2136.16  ,  937.3992,  847.0129,  638.561 ,  525.2427,  513.0866,
+  490.3676,  451.9428,  446.458 ,  416.8263]
+2026-10-02 13:15:26,850 Save singular values to embeddings/blogcatalog_rerun2_singular_values.npy
+2026-10-02 13:15:27,205 Rank-128 reconstructed matrix: shape=(10312, 10312), nnz=106337344, percent nonzero=100.000000%
+2026-10-02 13:15:27,216 Truncated embedding: shape=(10312, 128), nnz=1319936, percent nonzero=100.000000%
+2026-10-02 13:15:27,216 Memory after SVD: 687.19 MB
+2026-10-02 13:15:27,216 Peak memory usage: 3019.83 MB
+2026-10-02 13:15:27,216 Save embedding to embeddings/blogcatalog_rerun2.npy

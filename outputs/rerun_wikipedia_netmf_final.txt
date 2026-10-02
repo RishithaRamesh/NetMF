@@ -1,0 +1,22 @@
+2026-10-02 13:27:29,416 Running NetMF for a large window size...
+2026-10-02 13:27:29,416 Window size is set to be 10
+2026-10-02 13:27:29,419 loading mat file data/wikipedia.mat
+2026-10-02 13:27:29,419 Adjacency matrix: shape=(4777, 4777), nnz=184812, percent nonzero=0.809878%
+2026-10-02 13:27:29,419 Memory after loading adjacency: 59.81 MB
+2026-10-02 13:27:29,424 Eigen decomposition...
+2026-10-02 13:27:32,261 Maximum eigenvalue 1.000000, minimum eigenvalue 0.211298
+2026-10-02 13:27:32,261 Computing D^{-1/2}U..
+2026-10-02 13:27:32,264 Eigen decomposition time: 2.84 seconds
+2026-10-02 13:27:32,265 After filtering, max eigenvalue=1.000000, min eigenvalue=0.026791
+2026-10-02 13:27:32,549 DeepWalk matrix: shape=(4777, 4777), nnz=9539005, percent nonzero=41.801570%
+2026-10-02 13:27:32,549 Memory after DeepWalk matrix construction: 500.44 MB
+2026-10-02 13:27:32,806 DeepWalk matrix construction time: 0.54 seconds
+2026-10-02 13:27:38,610 SVD factorization time: 5.80 seconds
+2026-10-02 13:27:38,611 Top 10 singular values: [757.9863, 189.0771, 178.5343, 154.9402, 150.9452, 147.1568, 144.8126,
+ 143.0882, 138.1311, 135.5185]
+2026-10-02 13:27:38,611 Save singular values to embeddings/wikipedia_rerun_singular_values.npy
+2026-10-02 13:27:38,700 Rank-128 reconstructed matrix: shape=(4777, 4777), nnz=22819729, percent nonzero=100.000000%
+2026-10-02 13:27:38,705 Truncated embedding: shape=(4777, 128), nnz=611456, percent nonzero=100.000000%
+2026-10-02 13:27:38,705 Memory after SVD: 442.52 MB
+2026-10-02 13:27:38,705 Peak memory usage: 791.56 MB
+2026-10-02 13:27:38,705 Save embedding to embeddings/wikipedia_rerun.npy

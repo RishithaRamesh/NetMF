@@ -1,0 +1,22 @@
+2026-10-02 13:23:39,926 Running NetMF for a large window size...
+2026-10-02 13:23:39,926 Window size is set to be 10
+2026-10-02 13:23:39,928 loading mat file data/ppi.mat
+2026-10-02 13:23:39,928 Adjacency matrix: shape=(3890, 3890), nnz=76584, percent nonzero=0.506103%
+2026-10-02 13:23:39,928 Memory after loading adjacency: 56.45 MB
+2026-10-02 13:23:39,931 Eigen decomposition...
+2026-10-02 13:23:42,153 Maximum eigenvalue 1.000000, minimum eigenvalue 0.402907
+2026-10-02 13:23:42,153 Computing D^{-1/2}U..
+2026-10-02 13:23:42,155 Eigen decomposition time: 2.23 seconds
+2026-10-02 13:23:42,155 After filtering, max eigenvalue=1.000000, min eigenvalue=0.067471
+2026-10-02 13:23:42,333 DeepWalk matrix: shape=(3890, 3890), nnz=5404690, percent nonzero=35.716721%
+2026-10-02 13:23:42,334 Memory after DeepWalk matrix construction: 483.11 MB
+2026-10-02 13:23:42,512 DeepWalk matrix construction time: 0.36 seconds
+2026-10-02 13:23:46,759 SVD factorization time: 4.25 seconds
+2026-10-02 13:23:46,760 Top 10 singular values: [960.9427, 310.8881, 297.0601, 276.46  , 246.3213, 230.6771, 226.2422,
+ 207.8761, 203.0377, 198.8408]
+2026-10-02 13:23:46,761 Save singular values to embeddings/ppi_rerun_singular_values.npy
+2026-10-02 13:23:46,833 Rank-128 reconstructed matrix: shape=(3890, 3890), nnz=15132100, percent nonzero=100.000000%
+2026-10-02 13:23:46,835 Truncated embedding: shape=(3890, 128), nnz=497920, percent nonzero=100.000000%
+2026-10-02 13:23:46,835 Memory after SVD: 671.69 MB
+2026-10-02 13:23:46,835 Peak memory usage: 671.69 MB
+2026-10-02 13:23:46,835 Save embedding to embeddings/ppi_rerun.npy

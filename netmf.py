@@ -131,10 +131,19 @@ def approximate_deepwalk_matrix(
     return sparse.csr_matrix(Y)
 
 def svd_deepwalk_matrix(X, dim, singular_values_output=None):
-    u, s, vt = sparse.linalg.svds(
+    svd_start = time.perf_counter()
+    svd_result = sparse.linalg.svds(
         X,
         dim,
     )
+    svd_end = time.perf_counter()
+
+    logger.info(
+        "SVD factorization time: %.2f seconds",
+        svd_end - svd_start,
+    )
+
+    u, s, vt = svd_result
 
     # svds returns singular values in ascending order.
     # Sort them from largest to smallest for analysis.
@@ -258,9 +267,6 @@ def netmf_large(args):
         matrix_time,
     )
 
-    # Factorize DeepWalk matrix with SVD
-    svd_start = time.perf_counter()
-
     singular_values_output = (
         os.path.splitext(args.output)[0]
         + "_singular_values.npy"
@@ -283,13 +289,6 @@ def netmf_large(args):
         deepwalk_embedding.shape,
         embedding_nnz,
         embedding_percent,
-    )
-
-    svd_time = time.perf_counter() - svd_start
-
-    logger.info(
-        "SVD factorization time: %.2f seconds",
-        svd_time,
     )
 
     logger.info(
