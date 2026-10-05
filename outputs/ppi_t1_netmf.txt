@@ -1,0 +1,10 @@
+2026-10-04 21:48:37,133 Running NetMF for a small window size...
+2026-10-04 21:48:37,134 Window size is set to be 1
+2026-10-04 21:48:37,135 loading mat file data/ppi.mat
+2026-10-04 21:48:37,138 Compute matrix 1-th power
+2026-10-04 21:48:40,156 SVD factorization time: 2.84 seconds
+2026-10-04 21:48:40,157 Top 10 singular values: [158.2994,  97.4688,  93.1528,  88.1055,  82.5915,  79.6957,  78.7927,
+  72.0131,  70.6513,  67.8203]
+2026-10-04 21:48:40,158 Save singular values to embeddings/ppi_t1_singular_values.npy
+2026-10-04 21:48:40,302 Rank-128 reconstructed matrix: shape=(3890, 3890), nnz=15132100, percent nonzero=100.000000%
+2026-10-04 21:48:40,308 Save embedding to embeddings/ppi_t1.npy

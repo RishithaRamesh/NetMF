@@ -1,0 +1,10 @@
+2026-10-04 21:46:39,955 Running NetMF for a small window size...
+2026-10-04 21:46:39,955 Window size is set to be 1
+2026-10-04 21:46:39,962 loading mat file data/blogcatalog.mat
+2026-10-04 21:46:39,980 Compute matrix 1-th power
+2026-10-04 21:46:42,992 SVD factorization time: 2.02 seconds
+2026-10-04 21:46:42,994 Top 10 singular values: [467.1372, 302.2795, 260.3827, 188.475 , 184.5727, 184.0382, 160.9326,
+ 158.2857, 152.3447, 148.0956]
+2026-10-04 21:46:42,995 Save singular values to embeddings/blogcatalog_t1_singular_values.npy
+2026-10-04 21:46:43,391 Rank-128 reconstructed matrix: shape=(10312, 10312), nnz=106337344, percent nonzero=100.000000%
+2026-10-04 21:46:43,401 Save embedding to embeddings/blogcatalog_t1.npy

@@ -1,0 +1,10 @@
+2026-10-04 21:48:54,394 Running NetMF for a small window size...
+2026-10-04 21:48:54,394 Window size is set to be 1
+2026-10-04 21:48:54,398 loading mat file data/wikipedia.mat
+2026-10-04 21:48:54,403 Compute matrix 1-th power
+2026-10-04 21:48:56,729 SVD factorization time: 2.07 seconds
+2026-10-04 21:48:56,730 Top 10 singular values: [193.4147, 102.3221,  85.0236,  80.2604,  70.9451,  67.8345,  66.419 ,
+  65.5321,  64.4257,  63.6422]
+2026-10-04 21:48:56,730 Save singular values to embeddings/wikipedia_t1_singular_values.npy
+2026-10-04 21:48:56,890 Rank-128 reconstructed matrix: shape=(4777, 4777), nnz=22819729, percent nonzero=100.000000%
+2026-10-04 21:48:56,893 Save embedding to embeddings/wikipedia_t1.npy
